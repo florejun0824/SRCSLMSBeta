@@ -7,7 +7,7 @@ const generatePassword = () => Math.random().toString(36).slice(-8);
 
 const AdminConsole = () => {
   const [users, setUsers] = useState([]);
-  const [formData, setFormData] = useState({ email: '', firstName: '', lastName: '', role: 'student' });
+  const [formData, setFormData] = useState({ email: '', role: 'student' });
 
   const fetchUsers = async () => {
     const querySnapshot = await getDocs(collection(db, "users"));
@@ -27,7 +27,7 @@ const AdminConsole = () => {
     await setDoc(doc(db, "users", newId), { ...formData, password });
     alert(`User created with password: ${password}`);
     fetchUsers();
-    setFormData({ email: '', firstName: '', lastName: '', role: 'student' });
+    setFormData({ email: '', role: 'student' });
   };
 
   const handleDeleteUser = async (id) => {
@@ -44,8 +44,6 @@ const AdminConsole = () => {
       <h1 className="text-2xl font-bold mb-4">Admin Console</h1>
       <form onSubmit={handleAddUser} className="mb-6 bg-gray-100 p-4 rounded">
         <input name="email" value={formData.email} onChange={handleInputChange} placeholder="Email (e.g., user01@srcs.edu)" className="w-full mb-2 p-2 border rounded" required />
-        <input name="firstName" value={formData.firstName} onChange={handleInputChange} placeholder="First Name" className="w-full mb-2 p-2 border rounded" required />
-        <input name="lastName" value={formData.lastName} onChange={handleInputChange} placeholder="Last Name" className="w-full mb-2 p-2 border rounded" required />
         <select name="role" value={formData.role} onChange={handleInputChange} className="w-full mb-2 p-2 border rounded">
           <option value="student">Student</option>
           <option value="teacher">Teacher</option>
